@@ -46,7 +46,10 @@
 			<plugin>
 				<groupId>org.owasp</groupId>
 				<artifactId>dependency-check-maven</artifactId>
-				<version>6.1.1</version>
+				<version>9.2.0</version>
+				<configuration>
+					<nvdApiKey>${env.NVD_API_KEY}</nvdApiKey>
+				</configuration>
 				<executions>
 					<execution>
 						<goals>
