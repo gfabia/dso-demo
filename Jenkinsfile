@@ -44,6 +44,18 @@ pipeline {
           }
         }
 
+        stage('SAST'){
+          steps{
+            container('slscan'){
+              sh 'scan --type java,depscan --build'}
+          }
+          post{
+            success{
+              archiveArtifactsallowEmptyArchive:true, artifacts:'reports/*', fingerprint:true, onlyIfSuccessful:true
+            }
+          }
+        }
+
         stage('OSS License Checker') {
           steps {
             container('licensefinder') {
