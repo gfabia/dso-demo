@@ -51,7 +51,7 @@ pipeline {
           }
           post{
             success{
-              archiveArtifactsallowEmptyArchive:true, artifacts:'reports/*', fingerprint:true, onlyIfSuccessful:true
+              archiveArtifacts allowEmptyArchive: true, artifacts: 'reports/*', fingerprint: true, onlyIfSuccessful: true
             }
           }
         }
