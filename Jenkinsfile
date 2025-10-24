@@ -32,7 +32,7 @@ pipeline {
           steps {
             container('maven') {
               catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                sh 'mvn org.owasp:dependency-check-maven:check -Dnvd.api.key=$NVD_API_KEY -Dnvd.api.delay=6000'
+                sh 'mvn org.owasp:dependency-check-maven:check'
               }
             }
           }
