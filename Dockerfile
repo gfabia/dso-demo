@@ -1,10 +1,10 @@
-FROM maven:3.9.11-eclipse-temurin-21 AS build
+FROM maven:3.9.11-eclipse-temurin-17 AS build
 
 WORKDIR /app
 COPY . .
 RUN mvn clean package -DskipTests
 
-FROM eclipse-temurin:21-jre-debian AS run
+FROM eclipse-temurin:17-jre AS run
 
 ARG USER=devops
 ENV HOME=/home/${USER}
