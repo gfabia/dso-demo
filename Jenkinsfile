@@ -28,21 +28,21 @@ pipeline {
           }
         }
 
-        stage('SCA') {
-          steps {
-            container('maven') {
-              catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                sh 'mvn org.owasp:dependency-check-maven:check'
-              }
-            }
-          }
-          post {
-            always {
-              archiveArtifacts allowEmptyArchive: true, artifacts: 'target/dependency-check-report.html', fingerprint: true, onlyIfSuccessful: true 
-              // dependencyCheckPublisher pattern: 'report.xml'
-            }
-          }
-        }
+        // stage('SCA') {
+        //   steps {
+        //     container('maven') {
+        //       catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+        //         sh 'mvn org.owasp:dependency-check-maven:check'
+        //       }
+        //     }
+        //   }
+        //   post {
+        //     always {
+        //       archiveArtifacts allowEmptyArchive: true, artifacts: 'target/dependency-check-report.html', fingerprint: true, onlyIfSuccessful: true 
+        //       // dependencyCheckPublisher pattern: 'report.xml'
+        //     }
+        //   }
+        // }
 
         stage('SAST'){
           steps{
@@ -91,6 +91,25 @@ pipeline {
       }
     }
 
+    stage('Image Analysis') {
+      parallel {
+        stage('Image Linting') {
+          steps {
+            container('docker-tools') {
+              sh 'dockle docker.io/ggfsh/dso-demo'
+            }
+          }
+        }
+        stage('Image Scan') {
+          steps {
+            container('docker-tools') {
+              sh 'trivy image --timeout 10m --exit-code 1 ggfsh/dso-demo'
+            }
+          }
+        }
+      }
+    }
+        
     stage('Deploy to Dev') {
       steps {
         // TODO
