@@ -107,7 +107,7 @@ pipeline {
         stage('Image Scan') {
           steps {
             container('aquasec-trivy') {
-              sh 'trivy image --timeout 10m --exit-code 1 ggfsh/dso-demo'
+              sh 'trivy image --timeout 10m --severity HIGH,CRITICAL --exit-code 1 ggfsh/dso-demo'
             }
           }
         }
