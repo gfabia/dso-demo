@@ -19,6 +19,16 @@ spec:
           secretKeyRef:
             name: nvd-api-key
             key: NVD_API_KEY
+    - name: aquasec-trivy
+      image: aquasec/trivy:latest
+      command:
+        - cat
+      tty: true
+      volumeMounts:
+        - mountPath: /var/run
+          name: docker-sock
+        - mountPath: /tmp/trivycache/
+          name: trivycache
     - name: docker-tools
       image: rmkanda/docker-tools:latest
       command:

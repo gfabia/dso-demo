@@ -106,7 +106,7 @@ pipeline {
         }
         stage('Image Scan') {
           steps {
-            container('docker-tools') {
+            container('aquasec-trivy') {
               sh 'trivy image --timeout 10m --exit-code 1 ggfsh/dso-demo'
             }
           }
